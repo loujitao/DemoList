@@ -35,17 +35,24 @@ public class JMSConsumer1 {
             //创建session
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             //创建一个连接HelloWorld的消息队列
-            destination = session.createTopic("TopicTest");
+            destination = session.createTopic("device");
             //创建消息消费者
             messageConsumer = session.createConsumer(destination);
-
-            Message message=messageConsumer.receive();
-            while (message!=null) {
-                TextMessage textMessage = (TextMessage) message;
-                System.out.println("收到的消息:" + textMessage.getText());
-                message = messageConsumer.receive(1000L);
+            while (true){
+            Message msg=messageConsumer.receive();
+            if(msg instanceof TextMessage){
+                TextMessage textMessage = (TextMessage) msg;
+                try {
+                    System.out.println(textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
             }
-
+            if(msg instanceof ObjectMessage){
+                ObjectMessage objectMessage= (ObjectMessage) msg;
+                System.out.println(objectMessage);
+            }
+            }
         } catch (JMSException e) {
             e.printStackTrace();
         }

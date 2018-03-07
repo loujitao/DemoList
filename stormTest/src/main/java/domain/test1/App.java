@@ -74,7 +74,7 @@ public class App {
             LocalCluster cluster = new LocalCluster();
             cluster.submitTopology(TOPOLOGY_NAME, config, builder.createTopology());
 
-            Utils.sleep(10000);// 10s后自动结束
+            Utils.sleep(20000);// 10s后自动结束
             cluster.killTopology(TOPOLOGY_NAME);
             cluster.shutdown();
         }
