@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="AuthPlugin" />
+        <module name="freemarker" />
+        <module name="hbasetest" />
+        <module name="mongoTest" />
+        <module name="stormTest" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aop-webapp-hplus" target="1.6" />
+      <module name="aop-webapp-iot" target="1.7" />
+      <module name="aop-webapp-iot (1)" target="1.7" />
+      <module name="AuthPlugin" target="1.5" />
+      <module name="freemarker" target="1.5" />
+      <module name="hbasetest" target="1.5" />
+      <module name="mavenDemo" target="1.5" />
+      <module name="mongoTest" target="1.5" />
+      <module name="storm-starter" target="1.6" />
+      <module name="stormTest" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

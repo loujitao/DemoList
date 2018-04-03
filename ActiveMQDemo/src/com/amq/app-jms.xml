@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+           
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    	<constructor-arg index="0" value="admin"/>
+    	<constructor-arg index="1" value="admin"/>
+    	<constructor-arg index="2" value="tcp://172.17.70.101:61616"/>
+    	<property name="useAsyncSend" value="true"></property>
+		<property name="clientID" value="DSFD"></property>
+		<property name="trustAllPackages" value="true"/>
+
+    </bean>
+
+	<bean id="cachingConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="connectionFactory"/>
+		<property name="sessionCacheSize" value="100" />
+	</bean>
+
+    <bean id="singleConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+    	<!--<property name="targetConnectionFactory" ref="connectionFactory"></property>-->
+    	<property name="targetConnectionFactory" ref="cachingConnectionFactory"></property>
+    </bean>
+           
+    <!--  Message 转换器  -->
+    <bean id="activeMqMessageConverter" class="com.amq.MessageConver"/>
+          
+    <bean id="mqTopic" class="org.apache.activemq.command.ActiveMQTopic">
+    	<constructor-arg value="device"/>
+    </bean>      
+           
+	<bean id="jmsTemplatePro" class="org.springframework.jms.core.JmsTemplate">
+		<property name="deliveryMode" value="2" />  <!-- 是否持久化数据 1 否   2 是 -->
+		<property name="pubSubDomain" value="true" />
+		<property name="explicitQosEnabled" value="true" />
+		<property name = "defaultDestination" ref = "mqTopic" />
+		<property name="messageConverter" ref="activeMqMessageConverter"/>
+		<property name="connectionFactory" ref="singleConnectionFactory"/>
+	</bean>
+	
+	
+	<!-- 消息监听器类 -->
+	<bean id="messageConsumer" class="com.amq.MessageLisenter"></bean>
+	
+	<!-- 消息监听器容器-->
+	<bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="singleConnectionFactory" />
+		<property name="messageListener" ref="messageConsumer" />
+		<property name="destination" ref="mqTopic" />
+		<property name="subscriptionDurable" value="true" />
+		<property name="pubSubDomain" value="true" />
+		<property name="durableSubscriptionName" value="DSFD" />
+		<property name="clientId" value="DSFD" />
+	</bean>
+
+	
+</beans>	

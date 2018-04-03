@@ -1,0 +1,3 @@
+filter\AmqPlugin.class
+filter\IpAuthFilter.class
+domain\User.class

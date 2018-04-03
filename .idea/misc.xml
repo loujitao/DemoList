@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/aop-webapp-iot" />
+    <file type="web" url="file://$PROJECT_DIR$/freemarker" />
+    <file type="web" url="file://$PROJECT_DIR$/hbasetest" />
+    <file type="web" url="file://$PROJECT_DIR$/mavenDemo" />
+    <file type="web" url="file://$PROJECT_DIR$/mongoTest" />
+    <file type="web" url="file://$PROJECT_DIR$/stormTest" />
+    <file type="web" url="file://D:/work20171221/aop-webaapp-hplus" />
+    <file type="web" url="file://D:/work20171221/aop-webapp-iot" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/stormTest/pom.xml" />
+        <option value="$PROJECT_DIR$/freemarker/pom.xml" />
+        <option value="$PROJECT_DIR$/AuthPlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoTest/pom.xml" />
+        <option value="$PROJECT_DIR$/hbasetest/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
+</project>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hbasetest:war">
+    <output-path>$PROJECT_DIR$/hbasetest/target</output-path>
+    <root id="archive" name="hbasetest.war">
+      <element id="artifact" artifact-name="hbasetest:war exploded" />
+    </root>
+  </artifact>
+</component>

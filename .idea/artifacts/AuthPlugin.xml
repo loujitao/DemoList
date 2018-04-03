@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AuthPlugin">
+    <output-path>$PROJECT_DIR$/AuthPlugin/target</output-path>
+    <root id="archive" name="AuthPlugin.jar">
+      <element id="module-output" name="AuthPlugin" />
+    </root>
+  </artifact>
+</component>

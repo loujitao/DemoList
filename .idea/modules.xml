@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ActiveMQDemo/ActiveMQDemo.iml" filepath="$PROJECT_DIR$/ActiveMQDemo/ActiveMQDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AuthPlugin/AuthPlugin.iml" filepath="$PROJECT_DIR$/AuthPlugin/AuthPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/designMode/designMode.iml" filepath="$PROJECT_DIR$/designMode/designMode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/freemarker/freemarker.iml" filepath="$PROJECT_DIR$/freemarker/freemarker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/generatorSSM/generatorSSM.iml" filepath="$PROJECT_DIR$/generatorSSM/generatorSSM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hbasetest/hbasetest.iml" filepath="$PROJECT_DIR$/hbasetest/hbasetest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoTest/mongoTest.iml" filepath="$PROJECT_DIR$/mongoTest/mongoTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springmvcDemo/springmvcDemo.iml" filepath="$PROJECT_DIR$/springmvcDemo/springmvcDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stormTest/stormTest.iml" filepath="$PROJECT_DIR$/stormTest/stormTest.iml" />
+    </modules>
+  </component>
+</project>
