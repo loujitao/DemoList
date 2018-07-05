@@ -9,6 +9,7 @@ import javax.jms.*;
 import java.util.List;
 
 public class MessageLisenter implements MessageListener {
+
     @Override
     public void onMessage(Message msg) {
         if(msg instanceof TextMessage){
@@ -35,6 +36,7 @@ public class MessageLisenter implements MessageListener {
                         Gson gson = new Gson();
                         IotIot iotIot = (IotIot) obj;
                         String str = gson.toJson(iotIot);
+
                         System.out.println("操作：" + operate + ";数据类型：" + name + "数据：" + iotIot + ";" + str);
                     } else if ("IotDevice".equals(name)) {
                         Gson gson = new Gson();

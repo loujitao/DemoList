@@ -6,7 +6,7 @@
     <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
     	<constructor-arg index="0" value="admin"/>
     	<constructor-arg index="1" value="admin"/>
-    	<constructor-arg index="2" value="tcp://172.17.70.101:61616"/>
+    	<constructor-arg index="2" value="tcp://106.74.18.175:61616"/>
     	<property name="useAsyncSend" value="true"></property>
 		<property name="clientID" value="DSFDs"></property>
 		<property name="trustAllPackages" value="true"/>

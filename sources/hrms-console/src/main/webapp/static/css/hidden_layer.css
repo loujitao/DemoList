@@ -1,0 +1,28 @@
+
+
+.hidden_layer_center{
+    width:500px;
+    height:300px;
+    position:absolute;
+   	visibility:hidden;
+   	top:50%;
+   	left:50%;
+   	margin-top:-150px;
+   	margin-left:-250px;
+    border:0px solid red;
+}
+
+.hidden_layer_center_visible{
+    width:500px;
+    height:300px;
+    position:absolute;
+   	visibility:visible;
+   	top:50%;
+   	left:50%;
+   	margin-top:-150px;
+   	margin-left:-250px;
+    border:0px solid red;
+}
+
+
+

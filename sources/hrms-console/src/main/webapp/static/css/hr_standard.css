@@ -1,0 +1,193 @@
+*{
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size: 12px;
+	vertical-align:middle;   /* 行内元素的居中设置 */
+}
+
+
+
+img{
+	 border:0px;
+}
+
+.hr_list th , .hr_list td{
+   border:1px solid #C0D198;	
+}
+
+
+a:link {
+	color: #06482a;
+	text-decoration: none;
+
+}
+a:visited {
+	color: #06482a;
+	text-decoration: none;
+}
+a:hover {
+	color: #FF0000;
+	text-decoration: underline;
+}
+a:active {
+	color: #FF0000;
+	text-decoration: none;
+}
+
+.list_left{
+	background:url("../images/tab_12.gif") repeat-y;
+	position:relative;
+	width:9px;
+}
+.list_right{
+	background:url("../images/tab_16.gif") repeat-y;
+	position:relative;
+	width:9px;
+}
+
+.top_line{
+	 height:30px;
+	 width:100%;
+	 background:url("../images/tab_05.gif");
+	 border-bottom:#C0D198 1px solid;
+}
+
+.list_title{
+	 height:30px;
+   font-size: 12px;
+	 color: #1F4A65;
+	 font-weight: bold;	
+	 float:left;
+	 line-height:30px;
+}
+
+.clear_float{
+   clear:both;
+}
+
+.list_title img{
+   margin-left:10px;	
+}
+
+.ctrl_option img{
+   margin-right:10px;
+}
+
+
+
+.ctrl_option{
+   float:right;	
+   margin-right:5px;   
+}
+
+.ctrl_option li{
+   float:left;	
+   width:60px;
+   list-style:none;
+   line-height:30px;
+   cursor:pointer;
+}
+
+.main_table{
+   text-align:center;	
+   width:100%;
+   table-layout:fixed;         /*  均匀非配表格  */
+   border-collapse:collapse;  /* 去除表格中所有的空隙 */
+}
+
+.main_table img{
+   margin-right:10px;
+}
+
+table{
+	border-collapse:collapse;  /* 去除表格中所有的空隙 */
+	
+}
+
+.main_table th{
+	 height:24px;
+	 background:url("../images/tab_14.gif") ;
+}
+
+.main_table td{
+	 background:white;
+	 height:20px;	
+}
+
+.change_page{
+   float:right;	
+   height:29px;
+   margin-right:15px;
+}
+
+.list_fun{
+	height:29px;
+	line-height:29px;
+	background:url("../images/tab_21.gif");
+	vertical-align:middle;
+	width:100%;
+	padding-left:10px;
+}
+
+.list_fun input, .list_fun select{
+  margin-top:-4px;	
+}
+
+
+.button_style{
+  border:1px solid #C0D198;	
+  
+}
+.record_detail{
+ background:#f0fbda;
+ padding:20px;
+ border:1px outset #f0fbda; 
+ border-right:1px lightgrey solid;
+ border-bottom:1px lightgrey solid;
+}
+.record_detail table{
+	font-size:12px;
+	padding:10px; 
+  border-collapse:collapse;
+	table-layout:fixed;         /*  均匀非配表格  */
+  border-collapse:separate;  /* 去除表格中所有的空隙 */
+  width:100%;
+}
+
+.record_detail table td{
+  border:0px;
+  font-size:12px;
+  padding:5px;
+  border-bottom:dotted 1px lightgrey;
+}
+
+.col_style{
+	font-weight:bolder;
+	color:red;
+}
+
+.record_detail table .submit_td{
+	padding-top:20px;
+  border-bottom:0px;
+}
+
+.font_error{
+	color:red;
+	font-weight:bolder;
+}
+
+.font_tip{
+	color:green;
+}
+
+.font_ctrl{
+  color:#f64b4b;
+  font-weight:bold;	
+}
+
+.font_ctrl a:link, .font_ctrl a:visited, .font_ctrl a:hover, .font_ctrl a:active{
+	color:#f64b4b;
+	text-decoration:none;
+}
