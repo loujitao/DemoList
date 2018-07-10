@@ -32,7 +32,6 @@ public class StringTest {
 
         System.out.println(str4==str5);
         System.out.println(a==str5);
-
 /*  结果显示为：
         false
         false
