@@ -1,0 +1,43 @@
+#tomcat的一些配置
+server:
+  #tomcat 端口
+  port: 8088
+  #DispatcherServlet的规则
+  servlet-path: /
+
+#日志的配置
+logging:
+  pattern:
+    level: debbug
+  level: info
+
+
+
+
+spring:
+# AOP
+  aop:
+    # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+    proxy-target-class:  false
+    # Add @EnableAspectJAutoProxy.
+    auto: true
+#freemarker 模板引擎
+  freemarker:
+    charset: utf-8
+#groovy  动态语言
+  groovy:
+    template:
+      charset: UTF-8
+# HTTP encoding
+  http:
+    encoding:
+      charset: UTF-8
+# JACKSON
+  jackson:
+    date-format: java.text.SimpleDateFormat
+# SPRING MVC
+  mvc:
+    static-path-pattern: /static/**
+# SPRING RESOURCES HANDLING
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/

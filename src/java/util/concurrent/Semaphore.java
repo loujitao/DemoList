@@ -187,10 +187,12 @@ public class Semaphore implements java.io.Serializable {
         protected final boolean tryReleaseShared(int releases) {
             for (;;) {
                 int current = getState();
+                //releases = 1; 这里我不太理解，释放方法：next = current - releases;更合理些吧？！
                 int next = current + releases;
-                if (next < current) // overflow
+                if (next < current) // overflow  int类型最大值溢出
                     throw new Error("Maximum permit count exceeded");
-                if (compareAndSetState(current, next))
+                if (compareAndSetState(current, next))//CAS方式的修改
+                    //CAS修改成功返回true  失败不走方法体
                     return true;
             }
         }

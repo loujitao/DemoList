@@ -1,0 +1,113 @@
+package com.teleinfo.filter;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
+
+public class WhiteIpFilter
+  implements Filter
+{
+  private List<String> whiteIpList = null;
+  private Logger logger = Logger.getLogger(WhiteIpFilter.class);
+
+  public void init(FilterConfig filterConfig)
+    throws ServletException
+  {
+    this.whiteIpList = new ArrayList();
+    try {
+      Properties prop = new Properties();
+
+      InputStream in = super.getClass().getResourceAsStream("/whiteUrl.properties");
+      prop.load(in);
+      Iterator it = prop.stringPropertyNames().iterator();
+
+      while (it.hasNext())
+        this.whiteIpList.add((String)it.next());
+
+		this.whiteIpList.add("2018:100:0:0:0:0:0:50");
+      in.close();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    throws IOException, ServletException
+  {
+    HttpServletRequest httpRequest = (HttpServletRequest)request;
+    String ip = getIpAddr(httpRequest);
+    if ((httpRequest.getMethod().equals("GET")) || (isWhiteURL(ip))) {
+      chain.doFilter(httpRequest, response);
+      return;
+    }
+  }
+
+  public void destroy()
+  {
+  }
+
+  private String getIpAddr(HttpServletRequest request)
+  {
+    String ip = request.getHeader("x-forwarded-for");
+    System.out.println("x-forwarded-for ip: " + ip);
+    if ((ip != null) && (ip.length() != 0) && (!("unknown".equalsIgnoreCase(ip))) && 
+      (ip.indexOf(",") != -1)) {
+      ip = ip.split(",")[0];
+    }
+
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getHeader("Proxy-Client-IP");
+      System.out.println("Proxy-Client-IP ip: " + ip);
+    }
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getHeader("WL-Proxy-Client-IP");
+      System.out.println("WL-Proxy-Client-IP ip: " + ip);
+    }
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getHeader("HTTP_CLIENT_IP");
+      System.out.println("HTTP_CLIENT_IP ip: " + ip);
+    }
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+      System.out.println("HTTP_X_FORWARDED_FOR ip: " + ip);
+    }
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getHeader("X-Real-IP");
+      System.out.println("X-Real-IP ip: " + ip);
+    }
+    if ((ip == null) || (ip.length() == 0) || ("unknown".equalsIgnoreCase(ip))) {
+      ip = request.getRemoteAddr();
+      System.out.println("getRemoteAddr ip: " + ip);
+    }
+    System.out.println("获取客户端ip: " + ip);
+    return ip;
+  }
+
+  private boolean isWhiteURL(String currentIp)
+  {
+    this.logger.info("currentIp is: " + currentIp);
+    for (Iterator localIterator = this.whiteIpList.iterator(); localIterator.hasNext(); ) { String whiteIp = (String)localIterator.next();
+      this.logger.info("whiteIpList all is: " + whiteIp);
+      if (!(whiteIp.equals(currentIp))) break label107;
+      this.logger.info("url filter : " + currentIp + " match white url list");
+      label107: return true;
+    }
+
+    this.logger.info("url filter : this url not in white url list ");
+    return false;
+  }
+}

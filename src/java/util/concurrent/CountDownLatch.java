@@ -170,18 +170,21 @@ public class CountDownLatch {
         }
 
         protected int tryAcquireShared(int acquires) {
+            //这里参数没有用到，
+            // 只要getState()检测的重入次数为0，表示计数器清零了，返回1
+            //          计数器没有清零，返回-1
             return (getState() == 0) ? 1 : -1;
         }
 
         protected boolean tryReleaseShared(int releases) {
             // Decrement count; signal when transition to zero
-            for (;;) {
+            for (;;) {//这里自选等待，和while(true)异曲同工
                 int c = getState();
-                if (c == 0)
+                if (c == 0)     //表示重入次数为0,也就不需要释放了
                     return false;
-                int nextc = c-1;
-                if (compareAndSetState(c, nextc))
-                    return nextc == 0;
+                int nextc = c-1;//每次调用释放方法，将重入次数减1
+                if (compareAndSetState(c, nextc))//这里使用CAS操作比update安全
+                    return nextc == 0; //当nextc减为0时,表示无锁状态，返回true;否则false
             }
         }
     }
@@ -288,6 +291,7 @@ public class CountDownLatch {
      * <p>If the current count equals zero then nothing happens.
      */
     public void countDown() {
+        //每次调用countDown将计数器减1，其实是利用AQS同步器的释放方法
         sync.releaseShared(1);
     }
 

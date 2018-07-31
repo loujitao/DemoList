@@ -149,6 +149,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @throws NullPointerException if the runnable is null
      */
     public FutureTask(Runnable runnable, V result) {
+        //适配器模式  将runnable转换为callable
         this.callable = Executors.callable(runnable, result);
         this.state = NEW;       // ensure visibility of callable
     }
@@ -253,25 +254,23 @@ public class FutureTask<V> implements RunnableFuture<V> {
     }
 
     public void run() {
-        if (state != NEW ||
-            !UNSAFE.compareAndSwapObject(this, runnerOffset,
+        if (state != NEW || !UNSAFE.compareAndSwapObject(this, runnerOffset,
                                          null, Thread.currentThread()))
-            return;
+            return;//初始状态不是NEW，或者当前线程设置失败，直接结束
         try {
             Callable<V> c = callable;
             if (c != null && state == NEW) {
                 V result;
-                boolean ran;
+                boolean ran;//判断成功与否的开关
                 try {
-                    result = c.call();
-                    ran = true;
+                    result = c.call();//run方法调用了call方法
+                    ran = true;//执行成功返回true
                 } catch (Throwable ex) {
                     result = null;
-                    ran = false;
+                    ran = false;//失败返回false
                     setException(ex);
                 }
-                if (ran)
-                    set(result);
+                if (ran)    set(result);//为true,将返回值设置，以便于get获取
             }
         } finally {
             // runner must be non-null until state is settled to

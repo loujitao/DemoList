@@ -385,7 +385,7 @@ public class CopyOnWriteArrayList<E>
 
     @SuppressWarnings("unchecked")
     private E get(Object[] a, int index) {
-        return (E) a[index];
+        return (E) a[index];//读取操作不加锁
     }
 
     /**
@@ -409,15 +409,14 @@ public class CopyOnWriteArrayList<E>
         try {
             Object[] elements = getArray();
             E oldValue = get(elements, index);
-
-            if (oldValue != element) {
+            if (oldValue != element) { //新值和旧值不等的时候
                 int len = elements.length;
-                Object[] newElements = Arrays.copyOf(elements, len);
-                newElements[index] = element;
-                setArray(newElements);
-            } else {
+                Object[] newElements = Arrays.copyOf(elements, len);//拷贝一份
+                newElements[index] = element;//摄入新的值
+                setArray(newElements);//在将拷贝的替换原来的Object[]
+            } else {//没有任何操作;确保稳定写语义
                 // Not quite a no-op; ensures volatile write semantics
-                setArray(elements);
+                setArray(elements);//相等的时候，象征性的设置下
             }
             return oldValue;
         } finally {

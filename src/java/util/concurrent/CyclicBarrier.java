@@ -187,8 +187,10 @@ public class CyclicBarrier {
      * Called only while holding lock.
      */
     private void breakBarrier() {
+        //将这个设置为true后，或抛出BrokenBarrierException异常
         generation.broken = true;
         count = parties;
+        //唤醒所有的
         trip.signalAll();
     }
 
@@ -201,32 +203,30 @@ public class CyclicBarrier {
         final ReentrantLock lock = this.lock;
         lock.lock();
         try {
+            //   generation的broken默认值为false
             final Generation g = generation;
-
-            if (g.broken)
+            if (g.broken) //所有线程执行await()不会进入这个里面
                 throw new BrokenBarrierException();
-
-            if (Thread.interrupted()) {
-                breakBarrier();
-                throw new InterruptedException();
-            }
-
-            int index = --count;
+            if (Thread.interrupted()) {//判断是否被打断
+                breakBarrier();//为了给其他的线程传递BrokenBarrierException()
+                throw new InterruptedException(); }
+            int index = --count;//每次调用将计数器减1
             if (index == 0) {  // tripped
+                //当减为0的时候，说明所有线程已经就位，可以执行触发事件
                 boolean ranAction = false;
                 try {
-                    final Runnable command = barrierCommand;
+                    final Runnable command = barrierCommand;//这个是触发事件任务类
                     if (command != null)
+                        //执行事件的run()，这也就说明为什么由最后一个线程执行
                         command.run();
                     ranAction = true;
-                    nextGeneration();
+                    nextGeneration();//做一些初始化的功能，为了复用性
                     return 0;
                 } finally {
-                    if (!ranAction)
+                    if (!ranAction)//如果中间抛出了异常，会走下面的方法体
                         breakBarrier();
                 }
             }
-
             // loop until tripped, broken, interrupted, or timed out
             for (;;) {
                 try {
@@ -245,7 +245,6 @@ public class CyclicBarrier {
                         Thread.currentThread().interrupt();
                     }
                 }
-
                 if (g.broken)
                     throw new BrokenBarrierException();
 

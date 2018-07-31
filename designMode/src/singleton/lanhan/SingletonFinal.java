@@ -1,5 +1,7 @@
 package singleton.lanhan;
 
+import java.io.ObjectStreamException;
+
 /**
  * @Author Loujitao
  * @Date 2018/3/6
@@ -36,5 +38,10 @@ public class SingletonFinal {
             }
         }
         return  instance;
+    }
+
+    // 防止反序列化获取多个对象的漏洞
+    private Object readResolve() throws ObjectStreamException {
+        return instance;
     }
 }

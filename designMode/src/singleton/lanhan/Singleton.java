@@ -1,5 +1,9 @@
 package singleton.lanhan;
 
+import singleton.ehan.Singleton2;
+
+import java.io.ObjectStreamException;
+
 /**
  * @Author Loujitao
  * @Date 2018/3/6
@@ -10,7 +14,11 @@ public class Singleton {
     //实例化好的对象
     private volatile static Singleton instance=null;
     //私有构造
-    private Singleton(){}
+    private Singleton(){
+        // 防止反射获取多个对象的漏洞
+        if (null != Singleton.instance)
+            throw new RuntimeException();
+    }
     //线程不安全
     public  static Singleton getInstances(){
         if (instance==null)  instance=new Singleton();
@@ -36,5 +44,10 @@ public class Singleton {
             }
         }
         return  instance;
+    }
+
+    // 防止反序列化获取多个对象的漏洞
+    private Object readResolve() throws ObjectStreamException {
+        return instance;
     }
 }

@@ -146,89 +146,65 @@ public class ThreadLocal<T> {
      * @see #withInitial(java.util.function.Supplier)
      */
     public ThreadLocal() {
-    }
+    }i
 
-    /**
-     * Returns the value in the current thread's copy of this
-     * thread-local variable.  If the variable has no value for the
-     * current thread, it is first initialized to the value returned
-     * by an invocation of the {@link #initialValue} method.
-     *
-     * @return the current thread's value of this thread-local
-     */
+    //获取线程中值
     public T get() {
         Thread t = Thread.currentThread();
+        //拿到当前线程的ThreadLocalMap，里面的值保存在这里
         ThreadLocalMap map = getMap(t);
         if (map != null) {
+            //这里的this代表的是调用get的threadlocal实例
             ThreadLocalMap.Entry e = map.getEntry(this);
             if (e != null) {
-                @SuppressWarnings("unchecked")
+                 //map里的entry  .value获取保存的值 .key就是ThreadLocal了
                 T result = (T)e.value;
                 return result;
             }
         }
         return setInitialValue();
     }
-
-    /**
-     * Variant of set() to establish initialValue. Used instead
-     * of set() in case user has overridden the set() method.
-     *
-     * @return the initial value
-     */
+    //初始化方法
     private T setInitialValue() {
+        //其实等价于 value =  null
         T value = initialValue();
+        //获取当前线程
         Thread t = Thread.currentThread();
         ThreadLocalMap map = getMap(t);
         if (map != null)
             map.set(this, value);
         else
+            //创建ThreadLocalMap
             createMap(t, value);
         return value;
     }
-
-    /**
-     * Sets the current thread's copy of this thread-local variable
-     * to the specified value.  Most subclasses will have no need to
-     * override this method, relying solely on the {@link #initialValue}
-     * method to set the values of thread-locals.
-     *
-     * @param value the value to be stored in the current thread's copy of
-     *        this thread-local.
-     */
+    //设置值
     public void set(T value) {
         Thread t = Thread.currentThread();
         ThreadLocalMap map = getMap(t);
         if (map != null)
             map.set(this, value);
         else
+            //创建ThreadLocalMap
             createMap(t, value);
     }
 
-    /**
-     * Removes the current thread's value for this thread-local
-     * variable.  If this thread-local variable is subsequently
-     * {@linkplain #get read} by the current thread, its value will be
-     * reinitialized by invoking its {@link #initialValue} method,
-     * unless its value is {@linkplain #set set} by the current thread
-     * in the interim.  This may result in multiple invocations of the
-     * {@code initialValue} method in the current thread.
-     *
-     * @since 1.5
-     */
      public void remove() {
          ThreadLocalMap m = getMap(Thread.currentThread());
          if (m != null)
              m.remove(this);
      }
 
-    /**
-     * Get the map associated with a ThreadLocal. Overridden in
-     * InheritableThreadLocal.
-     *
-     * @param  t the current thread
-     * @return the map
-     */
+   /**
+    * @Author Loujitao
+    * @Date 2018/7/24
+    * @Time  9:51
+    * @Description:
+    * ThreadLocalMap 是ThreadLocal的内部类,在Thread类中有引用
+    * 即每个Thread类，都有自己的成员变量ThreadLocalMap，不会共享；
+    * 而ThreadLocal是获取线程自己的ThreadLocalMap，然后往里面放值
+    * 所以实现了线程间的数据隔离
+    */
     ThreadLocalMap getMap(Thread t) {
         return t.threadLocals;
     }
@@ -297,14 +273,6 @@ public class ThreadLocal<T> {
      */
     static class ThreadLocalMap {
 
-        /**
-         * The entries in this hash map extend WeakReference, using
-         * its main ref field as the key (which is always a
-         * ThreadLocal object).  Note that null keys (i.e. entry.get()
-         * == null) mean that the key is no longer referenced, so the
-         * entry can be expunged from table.  Such entries are referred to
-         * as "stale entries" in the code that follows.
-         */
         static class Entry extends WeakReference<ThreadLocal<?>> {
             /** The value associated with this ThreadLocal. */
             Object value;
@@ -314,54 +282,20 @@ public class ThreadLocal<T> {
                 value = v;
             }
         }
-
-        /**
-         * The initial capacity -- MUST be a power of two.
-         */
         private static final int INITIAL_CAPACITY = 16;
-
-        /**
-         * The table, resized as necessary.
-         * table.length MUST always be a power of two.
-         */
-        private Entry[] table;
-
-        /**
-         * The number of entries in the table.
-         */
-        private int size = 0;
-
-        /**
-         * The next size value at which to resize.
-         */
-        private int threshold; // Default to 0
-
-        /**
-         * Set the resize threshold to maintain at worst a 2/3 load factor.
-         */
-        private void setThreshold(int len) {
+         private Entry[] table;
+         private int size = 0;
+         private int threshold; // Default to 0
+         private void setThreshold(int len) {
             threshold = len * 2 / 3;
         }
-
-        /**
-         * Increment i modulo len.
-         */
         private static int nextIndex(int i, int len) {
             return ((i + 1 < len) ? i + 1 : 0);
         }
-
-        /**
-         * Decrement i modulo len.
-         */
-        private static int prevIndex(int i, int len) {
+         private static int prevIndex(int i, int len) {
             return ((i - 1 >= 0) ? i - 1 : len - 1);
         }
 
-        /**
-         * Construct a new map initially containing (firstKey, firstValue).
-         * ThreadLocalMaps are constructed lazily, so we only create
-         * one when we have at least one entry to put in it.
-         */
         ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
             table = new Entry[INITIAL_CAPACITY];
             int i = firstKey.threadLocalHashCode & (INITIAL_CAPACITY - 1);
@@ -370,12 +304,6 @@ public class ThreadLocal<T> {
             setThreshold(INITIAL_CAPACITY);
         }
 
-        /**
-         * Construct a new map including all Inheritable ThreadLocals
-         * from given parent map. Called only by createInheritedMap.
-         *
-         * @param parentMap the map associated with parent thread.
-         */
         private ThreadLocalMap(ThreadLocalMap parentMap) {
             Entry[] parentTable = parentMap.table;
             int len = parentTable.length;
@@ -452,41 +380,29 @@ public class ThreadLocal<T> {
          * @param value the value to be set
          */
         private void set(ThreadLocal<?> key, Object value) {
-
-            // We don't use a fast path as with get() because it is at
-            // least as common to use set() to create new entries as
-            // it is to replace existing ones, in which case, a fast
-            // path would fail more often than not.
-
-            Entry[] tab = table;
+             Entry[] tab = table;
             int len = tab.length;
             int i = key.threadLocalHashCode & (len-1);
-
             for (Entry e = tab[i];
                  e != null;
                  e = tab[i = nextIndex(i, len)]) {
                 ThreadLocal<?> k = e.get();
-
                 if (k == key) {
                     e.value = value;
                     return;
                 }
-
                 if (k == null) {
                     replaceStaleEntry(key, value, i);
                     return;
                 }
             }
-
             tab[i] = new Entry(key, value);
             int sz = ++size;
             if (!cleanSomeSlots(i, sz) && sz >= threshold)
                 rehash();
         }
 
-        /**
-         * Remove the entry for key.
-         */
+
         private void remove(ThreadLocal<?> key) {
             Entry[] tab = table;
             int len = tab.length;
